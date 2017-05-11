@@ -135,7 +135,7 @@ param="\"is_yakin=0&adit_item=$aditItem&notice=&token=$token&adit_group_id=$grou
 echo $param
 
 # POST
-statusCode=`eval curl -X POST -b ./.tmp/cookie.txt -d $param "https://ssl.jobcan.jp/employee/index/adit" -I -o /dev/null -w '%{http_code}' -s`
+statusCode=`eval curl -X POST -b ./.tmp/cookie.txt -d ${param} "https://ssl.jobcan.jp/employee/index/adit" -o /dev/null -w '%{http_code}' -s`
 
 if test $statusCode -eq 200; then
     echo "Succeeded!"
