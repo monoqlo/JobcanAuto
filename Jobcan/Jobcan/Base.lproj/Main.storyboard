@@ -758,11 +758,23 @@
                                     </allowedInputSourceLocales>
                                 </secureTextFieldCell>
                             </secureTextField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U1L-Wj-6FA">
+                                <rect key="frame" x="18" y="49" width="444" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="AaS-Jz-VxY"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" placeholderString="Status" id="LcB-Pe-OAR">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="CBz-fr-gMo" firstAttribute="leading" secondItem="DHy-Kr-Re6" secondAttribute="leading" id="550-Sf-0f7"/>
                             <constraint firstItem="DHy-Kr-Re6" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="749-pH-ADQ"/>
                             <constraint firstItem="3W5-km-53X" firstAttribute="top" secondItem="rMf-ca-aFz" secondAttribute="bottom" constant="16" id="AsT-9N-gbP"/>
+                            <constraint firstItem="U1L-Wj-6FA" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="Jdj-oN-xLI"/>
                             <constraint firstItem="HPf-Lg-kRc" firstAttribute="leading" secondItem="rMf-ca-aFz" secondAttribute="trailing" constant="8" id="Jxg-9t-Pgu"/>
                             <constraint firstAttribute="bottom" secondItem="VT2-0I-3ex" secondAttribute="bottom" constant="20" id="Neg-i8-aOI"/>
                             <constraint firstItem="rMf-ca-aFz" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="Phk-fO-HhV"/>
@@ -771,8 +783,10 @@
                             <constraint firstItem="CBz-fr-gMo" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="cPN-Z9-inp"/>
                             <constraint firstItem="rMf-ca-aFz" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="d2V-HW-ipF"/>
                             <constraint firstItem="DHy-Kr-Re6" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="erB-6k-olC"/>
+                            <constraint firstItem="VT2-0I-3ex" firstAttribute="top" secondItem="U1L-Wj-6FA" secondAttribute="bottom" constant="8" id="n0H-Y4-OXe"/>
                             <constraint firstAttribute="trailing" secondItem="HPf-Lg-kRc" secondAttribute="trailing" constant="20" id="rHv-AH-4FZ"/>
                             <constraint firstItem="3W5-km-53X" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="tl7-a3-pvc"/>
+                            <constraint firstAttribute="trailing" secondItem="U1L-Wj-6FA" secondAttribute="trailing" constant="20" id="v6w-At-U7d"/>
                             <constraint firstItem="CBz-fr-gMo" firstAttribute="trailing" secondItem="DHy-Kr-Re6" secondAttribute="trailing" id="wn7-pc-nCR"/>
                             <constraint firstItem="HPf-Lg-kRc" firstAttribute="centerY" secondItem="rMf-ca-aFz" secondAttribute="centerY" id="yvp-Ph-dSI"/>
                         </constraints>
@@ -781,6 +795,7 @@
                         <outlet property="mailAddressTextField" destination="DHy-Kr-Re6" id="Dk0-Me-2do"/>
                         <outlet property="passwordTextField" destination="CBz-fr-gMo" id="0Su-jK-2NL"/>
                         <outlet property="scriptPathTextField" destination="rMf-ca-aFz" id="LHx-Uj-afP"/>
+                        <outlet property="statusLabel" destination="U1L-Wj-6FA" id="gVp-xt-CgK"/>
                         <outlet property="typeSegmentedControl" destination="3W5-km-53X" id="uX6-uM-fYG"/>
                     </connections>
                 </viewController>

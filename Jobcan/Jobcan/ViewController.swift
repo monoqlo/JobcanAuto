@@ -17,6 +17,7 @@ class ViewController: NSViewController {
     @IBOutlet private weak var typeSegmentedControl: NSSegmentedControl!
     @IBOutlet private weak var mailAddressTextField: NSTextField!
     @IBOutlet private weak var passwordTextField: NSSecureTextField!
+    @IBOutlet private weak var statusLabel: NSTextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,33 +39,68 @@ class ViewController: NSViewController {
     }
     
     @IBAction private func SendRequest(_ sender: NSButton) {
-        let type: String
-        if typeSegmentedControl.selectedSegment == 0 {
-            type = "start"
-        } else {
-            type = "end"
+        sender.isEnabled = false
+        statusLabel.stringValue = "通信中…"
+        
+        guard let punchType = PunchType(rawValue: typeSegmentedControl.selectedSegment) else {
+            statusLabel.stringValue = "エラーが発生しました"
+            sender.isEnabled = true
+            return
         }
         
-        
-        let pipe = Pipe()
-        let file = pipe.fileHandleForReading
-        
-        let process = Process()
-        process.launchPath = "/bin/bash"
-        process.arguments = ["-c", "\(scriptPathTextField.stringValue) -m \(mailAddressTextField.stringValue) -p \(passwordTextField.stringValue) -t \(type)"]
-        process.standardOutput = pipe;
-        
-        process.launch()
-        
-        let data = file.readDataToEndOfFile()
-        file.closeFile()
-        
-        if let output = String(data: data, encoding: .utf8) {
-            print(output)
-        } else {
-            print("error")
+        DispatchQueue.global().async {
+            let pipe = Pipe()
+            let file = pipe.fileHandleForReading
+            
+            let process = Process()
+            process.launchPath = "/bin/bash"
+            process.arguments = ["-c", "\(self.scriptPathTextField.stringValue) -m \(self.mailAddressTextField.stringValue) -p \(self.passwordTextField.stringValue) -t \(punchType.commandArgument)"]
+            process.standardOutput = pipe;
+            
+            process.launch()
+            
+            let data = file.readDataToEndOfFile()
+            file.closeFile()
+            
+            DispatchQueue.main.async {
+                if let output = String(data: data, encoding: .utf8), output.contains("Succeeded!") {
+                    print(output)
+                    self.statusLabel.stringValue = "\(punchType.stringValue)しました！"
+                } else {
+                    self.statusLabel.stringValue = "通信に失敗しました"
+                }
+                
+                sender.isEnabled = true
+            }
         }
     }
 
+}
+
+extension ViewController {
+    
+    enum PunchType: Int {
+        case start = 0
+        case end = 1
+        
+        var stringValue: String {
+            switch self {
+            case .start:
+                return "出勤"
+            case .end:
+                return "退勤"
+            }
+        }
+        
+        var commandArgument: String {
+            switch self {
+            case .start:
+                return "start"
+            case .end:
+                return "end"
+            }
+        }
+    }
+    
 }
 
