@@ -144,8 +144,10 @@ statusCode=`eval curl -X POST -b -d $param cookie.txt "https://ssl.jobcan.jp/emp
 
 if test $statusCode -eq 200; then
     echo "Succeeded!"
+    afplay /System/Library/Sounds/Glass.aiff
 else
     echo "Failed... Jobcan status code: $statusCode"
+    afplay /System/Library/Sounds/Basso.aiff
 fi
 
 # Clean up
