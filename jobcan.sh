@@ -125,9 +125,9 @@ token=`echo "$html" | grep "token" | sed "s/^.*value=\"\(.*\)\"\>$/\1/g"`
 group_id=`echo "$html" | grep "<option value=" | head -n 1 | sed "s/^.*value=\"\(.*\)\".*$/\1/g"`
 
 # Create parameters
-if test $FLG_T = "start"; then
+if test "$ARG_T" = "start"; then
     aditItem="work_start"
-elif test $FLG_T = "end"; then
+elif test "$ARG_T" = "end"; then
     aditItem="work_end"
 fi
 
@@ -135,7 +135,7 @@ param="\"is_yakin=0&adit_item=$aditItem&notice=&token=$token&adit_group_id=$grou
 echo $param
 
 # POST
-statusCode=`eval curl -X POST -b -d $param cookie.txt "https://ssl.jobcan.jp/employee/index/adit" -I -o /dev/null -w '%{http_code}' -s`
+statusCode=`eval curl -X POST -b ./.tmp/cookie.txt -d $param "https://ssl.jobcan.jp/employee/index/adit" -I -o /dev/null -w '%{http_code}' -s`
 
 if test $statusCode -eq 200; then
     echo "Succeeded!"
