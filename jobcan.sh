@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 PROGNAME=$(basename $0)
 VERSION="1.0"
@@ -106,28 +106,23 @@ if [ -z $FLG_T ]; then
 fi
 
 # Preparation
-rm -r .tmp
-mkdir .tmp
+rm -r ./.tmp
+mkdir ./.tmp
 
 # Login
 encodedMailAddress=`ruby -r cgi -e "puts CGI.escape(\""$ARG_M"\")"`
 
 curl -c ./.tmp/cookie.txt -X POST -d "client_id=smartdrive1001&email=$encodedMailAddress&password=$ARG_P&save_login_info=0&url=https%3A%2F%2Fssl.jobcan.jp%2Femployee%2F&login_type=1: undefined" "https://ssl.jobcan.jp/login/pc-employee"
-curl -b ./.tmp/cookie.txt "https://ssl.jobcan.jp/employee/" > ./.tmp/login.html
+
+html=`curl -b ./.tmp/cookie.txt "https://ssl.jobcan.jp/employee/"`
 
 # Search token
-cat ./.tmp/login.html | grep "token" > ./.tmp/token.txt
-
 ## ex. <input type="hidden" class="token" name="token" value="0047f40392be20d56e7e70533cfed055">
-sed -i '' -e "s/^.*value=\"\(.*\)\"\>$/\1/g" ./.tmp/token.txt
-token=`cat ./.tmp/token.txt`
+token=`echo "$html" | grep "token" | sed "s/^.*value=\"\(.*\)\"\>$/\1/g"`
 
 # Search group_id
-cat ./.tmp/login.html | grep "<option value=" > ./.tmp/group_id.txt
-
 ## ex. <option value="9" >エンジニアリング-&gt;アプリ</option>
-sed -i '' -e "s/^.*value=\"\(.*\)\".*$/\1/g" ./.tmp/group_id.txt
-group_id=`head -n 1 ./.tmp/group_id.txt`
+group_id=`echo "$html" | grep "<option value=" | head -n 1 | sed "s/^.*value=\"\(.*\)\".*$/\1/g"`
 
 # Create parameters
 if test $FLG_T = "start"; then
