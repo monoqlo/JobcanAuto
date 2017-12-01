@@ -4,8 +4,8 @@
 
 ```
 # 出勤
-$ ./jobcan.sh -m monoqlo@hoge.com -p password -t start
+$ ./jobcan.sh -c YOUR_CLIENT_ID -m monoqlo@hoge.com -p YOUR_PASSWORD -t start
 
 # 退勤
-$ ./jobcan.sh -m monoqlo@hoge.com -p password -t end
+$ ./jobcan.sh -c YOUR_CLIENT_ID -m monoqlo@hoge.com -p YOUR_PASSWORD -t end
 ```

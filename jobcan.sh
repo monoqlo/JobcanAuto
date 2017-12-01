@@ -9,6 +9,7 @@ usage() {
     echo "Usage: $PROGNAME -a arg [-b arg] param"
     echo
     echo "options:"
+    echo "  -c, --client_id <ARG> <required> client id"
     echo "  -h, --help"
     echo "      --version"
     echo "  -m, --mail <ARG>     <required> mail address"
@@ -31,6 +32,17 @@ do
 	'--version' )
 	    echo $VERSION
 	    exit 1
+	    ;;
+	# Clinet id
+	'-c'|'--client_id' )
+	    FLG_C=1
+	    # No argument
+	    if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]]; then
+		echo "$PROGNAME:「$1」Argument is required" 1>&2
+		exit 1
+	    fi
+	    ARG_C="$2"
+	    shift 2
 	    ;;
 	# Mail address
 	'-m'|'--mail' )
@@ -84,6 +96,13 @@ do
     esac
 done
 
+# No "-c" option
+if [ -z $FLG_C ]; then
+    echo "$PROGNAME:'-c' option is required." 1>&2
+    echo $HELP_MSG 1>&2
+    exit 1
+fi
+
 # No "-m" option
 if [ -z $FLG_M ]; then
     echo "$PROGNAME:'-m' option is required." 1>&2
@@ -112,7 +131,7 @@ mkdir ./.tmp
 # Login
 encodedMailAddress=`ruby -r cgi -e "puts CGI.escape(\""$ARG_M"\")"`
 
-curl -c ./.tmp/cookie.txt -X POST -d "client_id=smartdrive1001&email=$encodedMailAddress&password=$ARG_P&save_login_info=0&url=https%3A%2F%2Fssl.jobcan.jp%2Femployee%2F&login_type=1: undefined" "https://ssl.jobcan.jp/login/pc-employee"
+curl -c ./.tmp/cookie.txt -X POST -d "client_id=$ARG_C&email=$encodedMailAddress&password=$ARG_P&save_login_info=0&url=https%3A%2F%2Fssl.jobcan.jp%2Femployee%2F&login_type=1: undefined" "https://ssl.jobcan.jp/login/pc-employee"
 
 html=`curl -b ./.tmp/cookie.txt "https://ssl.jobcan.jp/employee/"`
 
